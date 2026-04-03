@@ -30,7 +30,12 @@ MODEL_PATH = "moto_lens_model.pth"
 if not os.path.exists(MODEL_PATH):
     MODEL_PATH = os.path.join(os.path.dirname(__file__), "moto_lens_model.pth")
 
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if torch.backends.mps.is_available():
+    DEVICE = torch.device("mps")
+elif torch.cuda.is_available():
+    DEVICE = torch.device("cuda")
+else:
+    DEVICE = torch.device("cpu")
 model = load_model(MODEL_PATH, len(classes), DEVICE)
 
 @app.get("/")

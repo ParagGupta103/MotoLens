@@ -33,9 +33,12 @@ function App() {
     const formData = new FormData();
     formData.append("file", selectedFile);
 
+    // Get API URL from environment variables or fallback to localhost
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
     try {
       const response = await axios.post<PredictionResult>(
-        "http://localhost:8000/predict",
+        `${API_URL}/predict`,
         formData,
         {
           headers: {
@@ -47,7 +50,7 @@ function App() {
     } catch (err) {
       console.error("Error during prediction:", err);
       setError(
-        "Failed to get prediction from the server. Make sure the backend is running.",
+        `Failed to get prediction from the server. Make sure the backend (${API_URL}) is running.`,
       );
     } finally {
       setIsLoading(false);
