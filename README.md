@@ -46,22 +46,19 @@
 
 ### **1. Backend Setup**
 
-The backend requires the `Vertex312` conda environment.
-
 ```bash
 # Navigate to the backend directory
 cd backend
 
-# Activate your conda environment
-conda activate Vertex312
+# (Optional) Create and activate a virtual environment
+# python -m venv venv
+# source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install required dependencies
 pip install -r requirements.txt
 
 # Start the FastAPI server
 python main.py
-# OR
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 ### **2. Frontend Setup**

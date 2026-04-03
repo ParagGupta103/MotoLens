@@ -25,8 +25,8 @@ class CarClassifier(nn.Module):
         # Replace the final fully connected layer to match the number of car classes
         num_ftrs = self.model.fc.in_features
         self.model.fc = nn.Sequential(
-            nn.Dropout(0.5), # Add dropout to prevent overfitting
-            nn.Linear(num_ftrs, num_classes)
+            nn.Dropout(0.5),  # Add dropout to prevent overfitting
+            nn.Linear(num_ftrs, num_classes),
         )
 
     def forward(self, x):
@@ -41,14 +41,16 @@ def get_data_loaders(data_dir, batch_size=32, input_size=448):
                 transforms.RandomResizedCrop(input_size),
                 transforms.RandomHorizontalFlip(),
                 transforms.RandomRotation(15),
-                transforms.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1),
+                transforms.ColorJitter(
+                    brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1
+                ),
                 transforms.ToTensor(),
                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
             ]
         ),
         "test": transforms.Compose(
             [
-                transforms.Resize(int(input_size * 1.15)), # Resize slightly larger
+                transforms.Resize(int(input_size * 1.15)),  # Resize slightly larger
                 transforms.CenterCrop(input_size),
                 transforms.ToTensor(),
                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
@@ -62,7 +64,9 @@ def get_data_loaders(data_dir, batch_size=32, input_size=448):
     }
 
     dataloaders = {
-        x: DataLoader(image_datasets[x], batch_size=batch_size, shuffle=True, num_workers=4)
+        x: DataLoader(
+            image_datasets[x], batch_size=batch_size, shuffle=True, num_workers=4
+        )
         for x in ["train", "test"]
     }
 
@@ -73,7 +77,14 @@ def get_data_loaders(data_dir, batch_size=32, input_size=448):
 
 
 def train_model(
-    model, dataloaders, dataset_sizes, criterion, optimizer, scheduler, num_epochs=25, device=None
+    model,
+    dataloaders,
+    dataset_sizes,
+    criterion,
+    optimizer,
+    scheduler,
+    num_epochs=25,
+    device=None,
 ):
     if device is None:
         device = torch.device("cpu")
@@ -111,7 +122,7 @@ def train_model(
 
                 running_loss += loss.item() * inputs.size(0)
                 running_corrects += torch.sum(preds == labels.data).item()
-            
+
             if phase == "train":
                 scheduler.step()
 
@@ -131,7 +142,7 @@ def train_model(
 
 if __name__ == "__main__":
     DATA_DIR = "./data"
-    BATCH_SIZE = 16 # Reduced batch size for higher resolution 448x448
+    BATCH_SIZE = 16  # Reduced batch size for higher resolution 448x448
     EPOCHS = 30
     INPUT_SIZE = 448
 
@@ -157,10 +168,12 @@ if __name__ == "__main__":
 
     # Differential Learning Rates:
     # Lower LR for pre-trained convolutional layers, higher LR for the new head.
-    optimizer = optim.Adam([
-        {'params': model.model.layer4.parameters(), 'lr': 1e-5},
-        {'params': model.model.fc.parameters(), 'lr': 1e-3}
-    ])
+    optimizer = optim.Adam(
+        [
+            {"params": model.model.layer4.parameters(), "lr": 1e-5},
+            {"params": model.model.fc.parameters(), "lr": 1e-3},
+        ]
+    )
 
     # Learning Rate Scheduler:
     # Decays the learning rate by a factor of 0.1 every 7 epochs.
@@ -168,7 +181,14 @@ if __name__ == "__main__":
 
     print("Starting training with advanced features...")
     model = train_model(
-        model, loaders, sizes, criterion, optimizer, step_lr_scheduler, num_epochs=EPOCHS, device=DEVICE
+        model,
+        loaders,
+        sizes,
+        criterion,
+        optimizer,
+        step_lr_scheduler,
+        num_epochs=EPOCHS,
+        device=DEVICE,
     )
 
     torch.save(model.state_dict(), "moto_lens_model_v2.pth")
