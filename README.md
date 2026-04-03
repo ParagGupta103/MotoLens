@@ -2,6 +2,8 @@
 
 **MotoLens** is a full-stack AI application that acts as a "Shazam for Cars." Upload an image of a car, and our deep learning model will identify its make and model along with a confidence score.
 
+## Check out the Website: https://paraggupta103.github.io/MotoLens/
+
 ## ✨ Features
 
 - **Real-time Identification:** High-speed inference using a pre-trained ResNet-50 model.
