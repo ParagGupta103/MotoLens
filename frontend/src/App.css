@@ -1,0 +1,149 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+header h1 {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+
+header p {
+  color: #666;
+  font-size: 1.2rem;
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  border: 2px dashed #ccc;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background-color: #2196f3;
+  color: white;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.custom-file-upload:hover {
+  background-color: #1976d2;
+}
+
+.preview-container {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.image-preview {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.predict-button {
+  padding: 0.8rem 2.5rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.predict-button:hover:not(:disabled) {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.predict-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.result-section {
+  width: 100%;
+  max-width: 500px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.result-card {
+  background-color: #f9f9f9;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  text-align: left;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.result-item .label {
+  font-weight: bold;
+  color: #555;
+}
+
+.result-item .value {
+  color: #1a1a1a;
+  font-size: 1.1rem;
+}
+
+.confidence-bar-container {
+  height: 0.8rem;
+  background-color: #eee;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.confidence-bar {
+  height: 100%;
+  background-color: #4caf50;
+  border-radius: 0.4rem;
+  transition: width 0.8s ease-out;
+}
+
+.error-message {
+  color: #f44336;
+  background-color: #ffebee;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
